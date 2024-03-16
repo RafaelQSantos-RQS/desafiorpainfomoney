@@ -1,6 +1,7 @@
 import pandas as pd
 import modules.extract as Extract
 import modules.utilities as Utilities
+import modules.email as email
 from logging import basicConfig,INFO, info, error
 
 def main():
@@ -27,6 +28,22 @@ def main():
     info("Exportando para excel no diretório data/raw")
     path = 'data/raw/'
     df.to_excel(f'{path}Maiores Altas.xlsx',index=False)
+
+    print("\n\t\t## ENVIO DE RELATÓRIO ##")
+    email_info = Utilities.env_vars(group='email')
+    subject = "Relatório infomoney vs google finance"
+    msg = "\
+        <html> \
+            <head> \
+            </head> \
+            <body> \
+                <h1>Relatório infomoney vs google finance</h1> \
+                <h2>Segue anexo a Planilha com informações das Ações.</h2> \
+                <h3>Comparativo entre infomoney e google finance</h3> \
+            </body> \
+        </html>"
+    path_file = f'{path}Maiores Altas.xlsx'
+    email.send_email_gmail(credential=email_info,destiny=email_info.get('destiny'),subject=subject,msg=msg,file_path=path_file)
 
 if __name__ == "__main__":
     try:

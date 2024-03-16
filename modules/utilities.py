@@ -27,8 +27,15 @@ def env_vars(group:Literal['email']):
     load_dotenv()
     data_dict ={
         'email':{
-            'source_email':getenv('source_email'),
-            'source_password':getenv('source_password'),
-            'destiny_email':getenv('destiny_email')
+            'email':getenv('source_email'),
+            'password':getenv('source_password'),
+            'destiny':getenv('destiny_email')
         }
     }
+    
+    if group not in data_dict.keys():
+        msg = "O grupo de variáveis inserido não pertence a nenhum grupo de variáveis de ambiente pré definido"
+        error(msg=msg)
+        raise ValueError(msg)
+    
+    return data_dict.get(group)
