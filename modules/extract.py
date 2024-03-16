@@ -7,6 +7,18 @@ GOOGLE_FINANCE_URL = "https://www.google.com/finance"
 
 def extract_maiores_altas(headless:bool=False) -> dict:
     '''
+    Extrai informações sobre as maiores altas do dia do site Infomoney.
+
+    Esta função utiliza a biblioteca Playwright para automatizar a navegação em um navegador web e a biblioteca BeautifulSoup para analisar o HTML da página e extrair as informações desejadas.
+
+    Parâmetros:
+    - headless (bool, opcional): Se True, o navegador será iniciado no modo headless (sem interface gráfica). Padrão é False.
+
+    Retorna:
+    - dict: Um dicionário contendo as informações das maiores altas do dia, com as chaves 'AÇÃO', 'INDICE INFOMONEY' e 'VALOR INFOMONEY'.
+
+    Raises:
+    - Exception: Se ocorrer um erro durante a extração das informações.
     '''
     try:
         with sync_playwright() as p:
@@ -43,6 +55,19 @@ def extract_maiores_altas(headless:bool=False) -> dict:
     
 def extract_google_finance(acao:list,headless:bool=False) -> tuple:
     '''
+    Extrai informações sobre o preço e variação de ações do Google Finance.
+
+    Esta função utiliza a biblioteca Playwright para automatizar a navegação em um navegador web e extrair informações sobre o preço e variação de ações do Google Finance.
+
+    Parâmetros:
+    - acao (list): Uma lista de strings contendo os símbolos das ações a serem pesquisadas.
+    - headless (bool, opcional): Se True, o navegador será iniciado no modo headless (sem interface gráfica). Padrão é False.
+
+    Retorna:
+    - tuple: Uma tupla contendo informações sobre o preço e variação de cada ação pesquisada. Cada elemento da tupla é uma tupla contendo a variação (string) e o preço (float) da ação correspondente.
+
+    Raises:
+    - Exception: Se ocorrer um erro durante a extração das informações.
     '''
     try:
         with sync_playwright() as p:
@@ -71,7 +96,7 @@ def extract_google_finance(acao:list,headless:bool=False) -> tuple:
                 actual_title = page.title()
                 preco = actual_title.split("R$")[1].split(" ")[0].strip()
                 variacao = actual_title.split("(")[1].split(")")[0].strip().replace("▲","+").replace("▼","-")
-                result.append((variacao,float(preco)))
+                result.append((variacao,float(preco.replace(",","."))))
 
             return result
     except Exception as ex:

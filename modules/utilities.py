@@ -5,6 +5,13 @@ from logging import info, error
 
 def create_data_system_file():
     '''
+    Cria os diretórios necessários para o sistema de dados.
+
+    Esta função cria os diretórios necessários para o sistema de dados, incluindo diretórios para dados brutos (raw) e processados (processed).
+
+    Raises:
+    - FileExistsError: Se um dos diretórios já existir.
+    - Exception: Se ocorrer um erro inesperado durante a criação dos diretórios.
     '''
     data_paths = [
         'data/raw',
@@ -23,6 +30,18 @@ def create_data_system_file():
         
 def env_vars(group:Literal['email']):
     '''
+    Retorna as variáveis de ambiente relacionadas a um grupo específico.
+
+    Esta função carrega as variáveis de ambiente de um arquivo .env usando a biblioteca dotenv e retorna um dicionário com as variáveis relacionadas ao grupo especificado.
+
+    Parâmetros:
+    - group (Literal['email']): O grupo de variáveis de ambiente a serem recuperadas. Atualmente, apenas 'email' é suportado.
+
+    Retorna:
+    - dict: Um dicionário contendo as variáveis de ambiente relacionadas ao grupo especificado.
+
+    Raises:
+    - ValueError: Se o grupo especificado não pertencer a nenhum grupo de variáveis de ambiente pré-definido.
     '''
     load_dotenv()
     data_dict ={

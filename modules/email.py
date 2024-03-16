@@ -8,6 +8,17 @@ from email.mime.application import MIMEApplication
 
 def send_email_gmail(credential: dict, destiny: str | Sequence[str], subject: str, msg: str = None, file_path: str = None):
     '''
+    Envia um e-mail usando o protocolo SMTP, utilizando uma conexão segura TLS, autenticando-se com as credenciais fornecidas.
+
+    Parâmetros:
+    - credential (dict): Um dicionário contendo as credenciais de login, com as chaves 'email' e 'password'.
+    - destiny (str | Sequence[str]): O endereço de e-mail do destinatário ou uma sequência de endereços de e-mail.
+    - subject (str): O assunto do e-mail.
+    - msg (str, opcional): O corpo do e-mail em formato de texto simples ou HTML. Padrão é None.
+    - file_path (str, opcional): O caminho do arquivo a ser anexado ao e-mail. Padrão é None.
+
+    Raises:
+    - Exception: Se ocorrer um erro durante o envio do e-mail.
     '''
     try:
         info("Estabelecendo uma conexão com o servidor de email")
